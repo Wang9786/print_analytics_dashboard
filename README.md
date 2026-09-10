@@ -42,3 +42,5 @@ flowchart LR
 ## 執行方式
 
 此專案為純前端靜態網站，可直接開啟 `dist/index.html`，或透過 GitHub Pages 線上操作。
+
+最後更新：2026 年 9 月
