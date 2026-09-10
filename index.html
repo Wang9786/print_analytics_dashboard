@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="企業列印數據分析平台作品集展示版，以虛構資料呈現多據點列印分析、圖表與報表匯出功能。">
+  <title>PrintScope｜列印數據分析平台</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="#top" aria-label="PrintScope 首頁">
+      <span class="brand-mark" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </span>
+      <span><strong>PrintScope</strong><small>Analytics Platform</small></span>
+    </a>
+
+    <nav aria-label="主要導覽">
+      <a class="nav-item active" href="#overview"><span>◫</span>儀表板總覽</a>
+      <a class="nav-item" href="#ranking"><span>⌁</span>用量排行</a>
+      <a class="nav-item" href="#records"><span>≡</span>列印明細</a>
+      <a class="nav-item" href="#project"><span>◇</span>專案說明</a>
+    </nav>
+
+    <div class="sidebar-note">
+      <span class="demo-dot"></span>
+      <div><strong>Portfolio Demo</strong><small>所有資料皆為虛構</small></div>
+    </div>
+    <div class="profile"><span>WY</span><div><strong>王永閎</strong><small>Full-stack Project</small></div></div>
+  </aside>
+
+  <main id="top">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">OPERATIONS / PRINT ANALYTICS</p>
+        <h1>列印數據分析平台</h1>
+      </div>
+      <div class="top-actions">
+        <span class="updated">資料更新：<strong id="updatedAt">剛剛</strong></span>
+        <button class="ghost-btn" id="projectBtn">專案說明</button>
+        <button class="primary-btn" id="exportBtn">匯出 CSV</button>
+      </div>
+    </header>
+
+    <section class="filter-panel" aria-label="資料篩選">
+      <div class="filter-title"><span>⌕</span><div><strong>資料篩選</strong><small>即時更新下方分析結果</small></div></div>
+      <label>據點<select id="siteFilter"><option value="ALL">全部據點</option><option value="北區營運中心">北區營運中心</option><option value="中區製造中心">中區製造中心</option><option value="南區服務中心">南區服務中心</option></select></label>
+      <label>統計月份<select id="monthFilter"></select></label>
+      <label>部門<select id="deptFilter"><option value="ALL">全部部門</option></select></label>
+      <button class="reset-btn" id="resetBtn">重設條件</button>
+    </section>
+
+    <section id="overview" class="kpi-grid" aria-label="統計摘要">
+      <article class="kpi-card accent-cyan"><div class="kpi-icon">▤</div><p>總列印量</p><strong id="totalPages">0</strong><small>頁</small><span id="pageDelta" class="delta up">↑ 0%</span></article>
+      <article class="kpi-card accent-blue"><div class="kpi-icon">▣</div><p>列印工作數</p><strong id="totalJobs">0</strong><small>筆</small><span id="jobDelta" class="delta up">↑ 0%</span></article>
+      <article class="kpi-card accent-orange"><div class="kpi-icon">◎</div><p>彩色列印占比</p><strong id="colorRate">0%</strong><small>本期</small><span class="delta neutral">建議值 &lt; 30%</span></article>
+      <article class="kpi-card accent-violet"><div class="kpi-icon">＄</div><p>預估列印成本</p><strong id="totalCost">$0</strong><small>元</small><span class="delta neutral">依色彩模式估算</span></article>
+    </section>
+
+    <section class="chart-grid">
+      <article class="panel trend-panel">
+        <div class="panel-head"><div><p class="panel-kicker">VOLUME TREND</p><h2>每日列印趨勢</h2></div><div class="legend"><span><i class="cyan"></i>黑白</span><span><i class="orange"></i>彩色</span></div></div>
+        <div class="canvas-wrap"><canvas id="trendChart" aria-label="每日列印趨勢圖"></canvas></div>
+      </article>
+      <article class="panel color-panel">
+        <div class="panel-head"><div><p class="panel-kicker">COLOR MIX</p><h2>色彩模式分布</h2></div></div>
+        <div class="donut-area">
+          <div class="donut" id="colorDonut"><div><strong id="donutTotal">0</strong><small>總頁數</small></div></div>
+          <div class="donut-legend">
+            <div><span><i class="cyan"></i>黑白列印</span><strong id="grayPages">0</strong></div>
+            <div><span><i class="orange"></i>彩色列印</span><strong id="colorPages">0</strong></div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section id="ranking" class="ranking-grid">
+      <article class="panel">
+        <div class="panel-head"><div><p class="panel-kicker">DEPARTMENT</p><h2>部門用量排行</h2></div><span class="pill">TOP 5</span></div>
+        <div id="deptRanking" class="ranking-list"></div>
+      </article>
+      <article class="panel">
+        <div class="panel-head"><div><p class="panel-kicker">USERS</p><h2>人員用量排行</h2></div><span class="pill">TOP 5</span></div>
+        <div id="userRanking" class="ranking-list"></div>
+      </article>
+    </section>
+
+    <section class="panel heat-panel">
+      <div class="panel-head"><div><p class="panel-kicker">ACTIVITY HEATMAP</p><h2>週間 × 時段使用密度</h2></div><span class="muted">顏色越亮代表使用量越高</span></div>
+      <div id="heatmap" class="heatmap"></div>
+    </section>
+
+    <section id="records" class="panel records-panel">
+      <div class="panel-head"><div><p class="panel-kicker">RECENT ACTIVITY</p><h2>近期列印紀錄</h2></div><span id="recordCount" class="pill">0 筆資料</span></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>日期時間</th><th>據點</th><th>部門</th><th>使用者</th><th>文件</th><th>模式</th><th class="num">頁數</th><th class="num">預估成本</th></tr></thead>
+          <tbody id="recordRows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="project" class="project-section">
+      <div><p class="panel-kicker">CASE STUDY</p><h2>從人工彙整，到可即時查詢的分析平台</h2></div>
+      <div class="project-copy">
+        <p>此展示版呈現企業列印報表的整合思路：將分散於不同據點的紀錄標準化，再透過條件查詢、趨勢分析與報表匯出，降低週期性人工整理成本。</p>
+        <div class="project-facts"><div><small>負責範圍</small><strong>需求分析・介面設計・前後端整合</strong></div><div><small>核心能力</small><strong>資料清洗・統計視覺化・權限概念</strong></div><div><small>展示技術</small><strong>HTML・CSS・JavaScript・Canvas</strong></div></div>
+        <p class="disclaimer">本作品為個人重新設計的展示版本，所有名稱、數據與操作情境均為虛構，不包含任何任職公司之程式碼、內部資料或機密資訊。</p>
+      </div>
+    </section>
+    <footer>PrintScope Portfolio Demo <span>© 2026 王永閎</span></footer>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">CSV 已匯出</div>
+  <script src="app.js"></script>
+</body>
+</html>
